@@ -4,9 +4,12 @@ import MapComponent from "./Components/MapComponent";
 import DrinkCard from "./Components/DrinkCard";
 import DropdownFilter from "./Components/DropdownFilter";
 
-// 🚀 導入常數語系設定檔
+// 🟢 抽離優化：導入剛寫好的品牌彈窗元件
+import BrandModal from "./Components/BrandModal";
+
+// 🚀 導入常數語系設定檔（合併成一行引入，絕不重複宣告！）
 import { categoryLangMap, brandFeatureEnMap, standardToppingsList } from './data/langMaps';
-// 🚀 導入容錯控制假資料
+// 🚀 導入已對齊欄位的假資料
 import mockDrinks from './data/drinks';
 
 function App() {
@@ -133,14 +136,6 @@ function App() {
     setSearchTerm(language === 'zh' ? lucky.name : lucky.name_en);
   };
 
-  const handleToppingToggle = (topping) => {
-    if (selectedToppingForCalc?.name === topping.name) {
-      setSelectedToppingForCalc(null);
-    } else {
-      setSelectedToppingForCalc(topping);
-    }
-  };
-
   const categoryOptions = [{ value: 'All', labelZh: '全部品類分類', labelEn: 'All Categories' }, ...new Set(drinks.map(d => d.category).filter(Boolean))].map(c => typeof c === 'string' ? { value: c, labelZh: categoryLangMap[c]?.zh || c, labelEn: categoryLangMap[c]?.en || c } : c);
   const brandOptions = [{ value: 'All', labelZh: '全部連鎖品牌', labelEn: 'All Brands' }, ...new Set(drinks.map(d => d.store).filter(Boolean))].map(b => typeof b === 'string' ? { value: b, labelZh: b, labelEn: drinks.find(x => x.store === b)?.store_en || b } : b);
 
@@ -230,7 +225,7 @@ function App() {
       </div>
 
       <div className="results-count-banner">
-        {language === 'zh' ? `📊 本地 MySQL 動態過濾出 ${filteredDrinks.length} 筆項目` : `📊 Found ${filteredDrinks.length} matching items`}
+        {language === 'zh' ? `📊 找到 ${filteredDrinks.length} 筆項目` : `📊 Found ${filteredDrinks.length} matching items`}
       </div>
 
       {/* 飲料卡片網格 */}
@@ -305,30 +300,14 @@ function App() {
         </div>
       )}
 
-      {/* 🏢 彈窗 B：純粹品牌故事與實體評分視窗 */}
-      {selectedBrandInfo && (
-        <div className="modal-overlay" onClick={() => setSelectedBrandInfo(null)}>
-          <div className="modal-content standard-card-style" onClick={e => e.stopPropagation()}>
-            <button className="modal-close-x" onClick={() => setSelectedBrandInfo(null)}>&times;</button>
-            <img src={selectedBrandInfo.logo} className="modal-logo-centered" alt="logo" />
-            <h2>{language === 'zh' ? selectedBrandInfo.store : selectedBrandInfo.store_en}</h2>
-            <div className="google-rating-box-modal" style={{ marginBottom: '10px' }}>
-              Google Maps 評分：<span className="stars-accent">⭐ {(selectedBrandInfo.rating || 5).toFixed(1)}</span> / 5.0
-            </div>
-            <div className="feature-badge-centered">✨ {language === 'zh' ? selectedBrandInfo.feature : (brandFeatureEnMap[selectedBrandInfo.store] || 'Premium Tea Selection')}</div>
-            <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#444', margin: '15px 0' }}>
-              {language === 'zh' ? selectedBrandInfo.intro : `Discover authentic signature recipes engineered by ${selectedBrandInfo.store_en} Hsinchu branches.`}
-            </p>
-            <div className="modal-info-box-clean">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                <p style={{ margin: 0, textAlign: 'left', fontSize: '0.85rem', flex: 1 }}><b>{language === 'zh' ? '門市地址：' : 'Chinese Address:'}</b><br/><span style={{ color: 'hsl(var(--primary))', fontWeight: 600 }}>{selectedBrandInfo.address}</span></p>
-                <button className="copy-addr-btn-modern" onClick={() => copyAddress(selectedBrandInfo.address)}>📋 {language === 'zh' ? '複製' : 'Copy'}</button>
-              </div>
-              <p style={{ margin: 0, textAlign: 'left', fontSize: '0.85rem' }}><b>{language === 'zh' ? '今日營業時間：' : 'Hours:'}</b><br/>{selectedBrandInfo.hours}</p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* 🏢 獨立彈窗 B：純粹連鎖品牌細節視窗 (100%對齊資料庫欄位，代碼大幅精簡) */}
+            <BrandModal 
+              brandInfo={selectedBrandInfo} 
+              language={language} 
+              brandFeatureEnMap={brandFeatureEnMap} 
+              onCopyAddr={copyAddress}
+              onClose={() => setSelectedBrandInfo(null)} 
+            />
 
       {/* 🗺️ 彈窗 C：卡片浮動式最大化地圖視窗 (拿掉變形打叉，文字改為「飲品資料」) */}
       {isMapMaximized && (
@@ -340,7 +319,7 @@ function App() {
             </div>
             <div className="map-modal-footer">
               <span className="results-badge-map">
-                {language === 'zh' ? `📊 共篩選出 ${filteredDrinks.length} 筆飲品資料` : `Found ${filteredDrinks.length} matching drink items`}
+                {language === 'zh' ? `📊 找到 ${filteredDrinks.length} 筆飲品資料` : `Found ${filteredDrinks.length} matching drink items`}
               </span>
               <button className="copy-addr-btn-modern" style={{padding: '8px 16px', fontSize:'0.8rem', background: '#374151'}} onClick={() => setIsMapMaximized(false)}>
                 {language === 'zh' ? '↩️ 收回地圖' : '↩️ Minimize'}

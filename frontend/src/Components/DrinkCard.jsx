@@ -19,10 +19,13 @@ function DrinkCard({ drink, language, categoryLangMap, onCardClick, onLogoClick 
     return stars;
   };
 
+  // 💡 雙軌數據防禦：接住資料庫的 brand_color 或本地的 color
+  const cardBorderColor = drink.brand_color || drink.color || '#6366f1';
+
   return (
     <div 
       className="drink-card-interactive" 
-      style={{ borderTop: `4px solid ${drink.color || '#6366f1'}` }}
+      style={{ borderTop: `4px solid ${cardBorderColor}` }}
       onClick={() => onCardClick(drink)}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={(e) => e.stopPropagation()}>
