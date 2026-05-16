@@ -14,3 +14,11 @@ frontend/dist/
 # 排除系統暫存檔
 .DS_Store
 Thumbs.db
+
+# 排除偷跑進度
+test-logic.js
+DrinkModal.jsx
+App4.jsx
+
+# 排除其他不必要的檔案
+drinks0.js

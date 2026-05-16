@@ -9,7 +9,7 @@ import BrandModal from "./Components/BrandModal";
 
 // 🚀 導入常數語系設定檔（合併成一行引入，絕不重複宣告！）
 import { categoryLangMap, brandFeatureEnMap, standardToppingsList } from './data/langMaps';
-// 🚀 導入已對齊欄位的假資料
+// 🚀 導入已對齊欄位的假資料git add .
 import mockDrinks from './data/drinks';
 
 function App() {
