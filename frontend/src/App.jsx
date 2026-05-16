@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import MapComponent from './components/MapComponent';
-import DrinkCard from './components/DrinkCard';
-import DropdownFilter from './components/DropdownFilter';
+import MapComponent from "./Components/MapComponent";
+import DrinkCard from "./Components/DrinkCard";
+import DropdownFilter from "./Components/DropdownFilter";
 
 // 🚀 導入常數語系設定檔
 import { categoryLangMap, brandFeatureEnMap, standardToppingsList } from './data/langMaps';
