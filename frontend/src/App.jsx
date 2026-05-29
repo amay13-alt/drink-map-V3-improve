@@ -147,7 +147,7 @@ function App() {
     <div className="app-container">
       <header className="centered-header">
         {/* 💡 修正：指示燈靠左，連線亮綠色，斷線亮紅色 */}
-        <div className="header-widgets-left">
+        {/*<div className="header-widgets-left">
           <div className={`db-indicator ${isDbConnected === true ? 'connected' : 'fallback'}`}>
             <span className="pulse-dot"></span>
             <span className="indicator-text">
@@ -156,7 +156,7 @@ function App() {
                 : (language === 'zh' ? '斷線：啟動本地備份' : 'Local Backup Mode')}
             </span>
           </div>
-        </div>
+        </div>*/}
         {/* 右手邊放置語言切換 */}
         <div className="header-widgets-right">
           <button className="lang-toggle" onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}>
