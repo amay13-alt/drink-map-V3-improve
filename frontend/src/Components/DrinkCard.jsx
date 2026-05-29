@@ -1,19 +1,24 @@
 import React from 'react';
+// 從 react-icons 的 FontAwesome (fa) 分類中引入星星
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 function DrinkCard({ drink, language, categoryLangMap, onCardClick, onLogoClick }) {
   if (!drink) return null;
 
-  // 🌟 星星精準渲染邏輯 (補上安全預設值 5.0)
+  // 🌟 星星精準渲染邏輯 (使用 SVG 向量圖示替換純文字)
   const renderStars = (rating = 5) => {
     const stars = [];
     const safeRating = Number(rating) || 5;
     for (let i = 1; i <= 5; i++) {
       if (i <= Math.floor(safeRating)) {
-        stars.push(<span key={i} style={{ color: '#FFD700' }}>★</span>);
+        // 實心星
+        stars.push(<FaStar key={i} style={{ color: '#FFD700', fontSize: '1.1rem', marginRight: '2px' }} />);
       } else if (i === Math.ceil(safeRating) && safeRating % 1 >= 0.5) {
-        stars.push(<span key={i} style={{ color: '#FFD700' }}>⯪</span>); 
+        // 半顆星
+        stars.push(<FaStarHalfAlt key={i} style={{ color: '#FFD700', fontSize: '1.1rem', marginRight: '2px' }} />); 
       } else {
-        stars.push(<span key={i} style={{ color: '#ccc' }}>☆</span>);
+        // 空心星
+        stars.push(<FaRegStar key={i} style={{ color: '#ccc', fontSize: '1.1rem', marginRight: '2px' }} />);
       }
     }
     return stars;
@@ -37,8 +42,11 @@ function DrinkCard({ drink, language, categoryLangMap, onCardClick, onLogoClick 
           onClick={() => onLogoClick(drink)} 
           style={{ cursor: 'pointer', width: '45px', height: '45px', borderRadius: '50%', border: '1px solid #eee' }}
         />
-        <div className="card-rating">
-          {renderStars(drink.rating)} <span style={{fontSize:'0.8rem', color:'#555'}}>({(drink.rating || 5).toFixed(1)})</span>
+        <div className="card-rating" style={{ display: 'flex', alignItems: 'center' }}>
+          {renderStars(drink.rating)} 
+          <span style={{fontSize:'0.8rem', color:'#555', marginLeft: '4px'}}>
+            ({(drink.rating || 5).toFixed(1)})
+          </span>
         </div>
       </div>
       

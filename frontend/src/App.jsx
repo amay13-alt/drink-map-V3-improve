@@ -136,8 +136,8 @@ function App() {
     setSearchTerm(language === 'zh' ? lucky.name : lucky.name_en);
   };
 
-  const categoryOptions = [{ value: 'All', labelZh: '全部品類分類', labelEn: 'All Categories' }, ...new Set(drinks.map(d => d.category).filter(Boolean))].map(c => typeof c === 'string' ? { value: c, labelZh: categoryLangMap[c]?.zh || c, labelEn: categoryLangMap[c]?.en || c } : c);
-  const brandOptions = [{ value: 'All', labelZh: '全部連鎖品牌', labelEn: 'All Brands' }, ...new Set(drinks.map(d => d.store).filter(Boolean))].map(b => typeof b === 'string' ? { value: b, labelZh: b, labelEn: drinks.find(x => x.store === b)?.store_en || b } : b);
+  const categoryOptions = [{ value: 'All', labelZh: '全部品項', labelEn: 'All Categories' }, ...new Set(drinks.map(d => d.category).filter(Boolean))].map(c => typeof c === 'string' ? { value: c, labelZh: categoryLangMap[c]?.zh || c, labelEn: categoryLangMap[c]?.en || c } : c);
+  const brandOptions = [{ value: 'All', labelZh: '全部品牌', labelEn: 'All Brands' }, ...new Set(drinks.map(d => d.store).filter(Boolean))].map(b => typeof b === 'string' ? { value: b, labelZh: b, labelEn: drinks.find(x => x.store === b)?.store_en || b } : b);
 
   const modalTotalAmount = selectedDrink ? (Number(selectedDrink.price) || 0) + (selectedToppingForCalc ? (Number(selectedToppingForCalc.price) || 0) : 0) : 0;
 
@@ -194,7 +194,7 @@ function App() {
           <div className="dropdowns-row-flex">
             <DropdownFilter label={language === 'zh' ? '品類' : 'Category'} options={categoryOptions} value={selectedCategory} onSelectChange={setSelectedCategory} language={language} />
             <DropdownFilter label={language === 'zh' ? '品牌' : 'Brand'} options={brandOptions} value={selectedBrand} onSelectChange={setSelectedBrand} language={language} />
-            <DropdownFilter label={language === 'zh' ? '配料大類' : 'Topping Filter'} options={standardToppingsList} value={selectedTopping} onSelectChange={setSelectedTopping} language={language} />
+            <DropdownFilter label={language === 'zh' ? '配料' : 'Topping Filter'} options={standardToppingsList} value={selectedTopping} onSelectChange={setSelectedTopping} language={language} />
           </div>
 
           <div className="slider-box-inline">

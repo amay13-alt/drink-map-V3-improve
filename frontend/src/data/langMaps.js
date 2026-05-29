@@ -25,7 +25,7 @@ export const brandFeatureEnMap = {
 
 // 💡 符合 BR-06 與使用者要求：12 種標準化加料大類選單
 export const standardToppingsList = [
-  { value: 'All', labelZh: '全部配料篩選', labelEn: 'All Toppings' },
+  { value: 'All', labelZh: '全部配料', labelEn: 'All Toppings' },
   { value: '波霸', labelZh: '波霸系列', labelEn: 'Boba' },
   { value: '椰果', labelZh: '椰果系列', labelEn: 'Coconut Jelly' },
   { value: '燕麥', labelZh: '健康燕麥', labelEn: 'Oats' },
